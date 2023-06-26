@@ -1,10 +1,14 @@
 import React from "react";
+import Header from "../components/Header";
 
 const Error = () => {
   return (
-    <div>
-      <h1>Une erreur est survenu! </h1>
-    </div>
+    <>
+      <Header />
+      <div>
+        <h1>Une erreur est survenu! </h1>
+      </div>
+    </>
   );
 };
 
