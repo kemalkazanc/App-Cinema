@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import Card from "./Card";
 
 const Form = () => {
@@ -15,10 +16,11 @@ const Form = () => {
       )
       .then((res) => setMoviesData(res.data.results));
   }, [search]);
+
   return (
     <div className="form-component">
       <div className="form-container">
-        <form action="">
+        <form>
           <input
             type="text"
             placeholder="Entrez le titre d'un film"
