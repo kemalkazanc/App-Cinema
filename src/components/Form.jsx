@@ -1,7 +1,5 @@
 import axios from "axios";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
 
 const Form = () => {
@@ -17,10 +15,30 @@ const Form = () => {
       .then((res) => setMoviesData(res.data.results));
   }, [search]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Optionnel : déclencher la recherche lorsque le formulaire est soumis
+    // setSearch(e.target.search.value);
+  };
+
+  useEffect(() => {
+    if (sortGoodBad !== null) {
+      const sortedData = [...moviesData].sort((a, b) => {
+        if (sortGoodBad === "goodToBad") {
+          return b.vote_average - a.vote_average;
+        } else if (sortGoodBad === "badToGood") {
+          return a.vote_average - b.vote_average;
+        }
+        return 0;
+      });
+      setMoviesData(sortedData);
+    }
+  }, [sortGoodBad, moviesData]);
+
   return (
     <div className="form-component">
       <div className="form-container">
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             placeholder="Entrez le titre d'un film"
@@ -47,18 +65,9 @@ const Form = () => {
         </div>
       </div>
       <div className="result">
-        {moviesData
-          .slice(0, 12)
-          .sort((a, b) => {
-            if (sortGoodBad === "goodToBad") {
-              return b.vote_average - a.vote_average;
-            } else if (sortGoodBad === "badToGood") {
-              return a.vote_average - b.vote_average;
-            }
-          })
-          .map((movie) => (
-            <Card movie={movie} key={movie.id} />
-          ))}
+        {moviesData.slice(0, 12).map((movie) => (
+          <Card movie={movie} key={movie.id} />
+        ))}
       </div>
     </div>
   );
